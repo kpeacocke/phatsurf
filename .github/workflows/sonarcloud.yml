@@ -14,11 +14,11 @@ jobs:
         image: mongo:latest
         ports:
           - 27017:27017
-        healthcheck:
-          test: ["CMD-SHELL", "echo 'db.runCommand({ping: 1}).ok' | mongosh localhost:27017/test --quiet"]
-          interval: 10s
-          timeout: 30s
-          retries: 10
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       # Step 1: Check out the repository
