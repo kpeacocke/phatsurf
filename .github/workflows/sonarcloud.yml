@@ -1,8 +1,8 @@
 name: SonarCloud
 
 on:
-  push:
-  pull_request:
+  push:       # Trigger on every branch push
+  pull_request:  # Trigger on PR events
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -15,32 +15,31 @@ jobs:
         image: mongo:latest
         ports:
           - 27017:27017
-        options: --health-cmd="echo 'db.runCommand({ping: 1})' | mongo --quiet" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >
+          --health-cmd="echo 'db.runCommand({ping: 1})' | mongo --quiet"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
-      # Step 1: Check out the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # Step 3: Install dependencies
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
-      # Step 4: Run tests and generate coverage
       - name: Run Tests and Generate Coverage
         env:
-          MONGO_URI: "mongodb://localhost:27017/phatsurf"  # Ensure the app connects to the service
+          MONGO_URI: "mongodb://localhost:27017/phatsurf"
         run: pytest --cov=app --cov-report=html
 
-      # Step 5: SonarCloud Scan
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2
         env:
@@ -50,7 +49,3 @@ jobs:
             -Dsonar.projectKey=<your_project_key>
             -Dsonar.organization=<your_organization>
             -Dsonar.python.coverage.reportPaths=htmlcov
-            -Dsonar.pullrequest.key=${{ github.event.pull_request.number || '0' }}
-            -Dsonar.pullrequest.branch=${{ github.head_ref || github.ref_name }}
-            -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref || 'main' }}
-            -Dsonar.branch.name=${{ github.head_ref || github.ref_name }}
