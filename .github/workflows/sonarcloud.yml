@@ -52,8 +52,7 @@ jobs:
           args: >
             -Dsonar.projectKey=<your_project_key>
             -Dsonar.organization=<your_organization>
-            -Dsonar.python.coverage.reportPaths=htmlcov
-            -Dsonar.pullrequest.key=${{ github.event.pull_request.number || '0' }}
-            -Dsonar.pullrequest.branch=${{ github.head_ref || github.ref_name }}
-            -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref || 'main' }}
-            -Dsonar.branch.name=${{ github.head_ref || github.ref_name }}
+            -Dsonar.sources=.
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.host.url=https://sonarcloud.io
+            ${{ fromJSON('{"pull_request": "-Dsonar.pullrequest.key=${{ github.event.pull_request.number }} -Dsonar.pullrequest.branch=${{ github.head_ref }} -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }}", "push": "-Dsonar.branch.name=${{ github.ref_name }}"}')[github.event_name] }}
