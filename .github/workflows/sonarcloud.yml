@@ -48,11 +48,3 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT }}
-            -Dsonar.organization=${{ secrets.SONAR_ORG }}
-            -Dsonar.sources=.
-            -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.host.url=https://sonarcloud.io
-            ${{ fromJSON('{"pull_request": "-Dsonar.pullrequest.key=${{ github.event.pull_request.number }} -Dsonar.pullrequest.branch=${{ github.head_ref }} -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }}", "push": "-Dsonar.branch.name=${{ github.ref_name }}"}')[github.event_name] }}
