@@ -1,0 +1,7 @@
+[run]
+source = app
+
+[paths]
+source =
+    app
+    */app
