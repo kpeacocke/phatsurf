@@ -46,7 +46,7 @@ jobs:
 
       # Step 3: Install dependencies
       - name: Install Dependencies
-        run: poetry install --no-interaction --no-ansi
+        run: poetry install --no-interaction --no-ansi --no-root
 
       # Step 4: Run tests and generate coverage
       - name: Run Tests and Generate Coverage
