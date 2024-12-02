@@ -2,4 +2,4 @@
 source = app
 
 [report]
-relative_files = True
+relative_files = true
