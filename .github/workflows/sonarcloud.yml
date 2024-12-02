@@ -31,13 +31,19 @@ jobs:
       - name: Extract Python Version
         id: extract-python
         run: |
-            python_version=$(grep '^python =' pyproject.toml | sed -E 's/.*"(\^?[0-9\.]+)".*/\1/')
-            echo "version=${python_version#^}" >> $GITHUB_ENV
+          python_version=$(grep '^python =' pyproject.toml | sed -E 's/.*"(\^?[0-9\.]+)".*/\1/')
+          echo "version=${python_version#^}" >> $GITHUB_ENV
       
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ steps.extract-python.outputs.version }}
+          python-version: ${{ env.version }}
+
+      - name: Set up Poetry
+        uses: python-poetry/setup-poetry@v2
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
 
       # Step 3: Install dependencies
       - name: Install Dependencies
