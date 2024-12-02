@@ -1,5 +1,0 @@
-[run]
-source = app
-
-[report]
-relative_files = true
