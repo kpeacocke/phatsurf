@@ -55,7 +55,7 @@ jobs:
         run: poetry run pytest --cov=app --cov-report=xml:coverage.xml
 
       - name: Debug List files
-        run: ls -R
+        run: cat coverage.xml
 
       # Step 5: SonarCloud Scan
       - name: SonarCloud Scan
