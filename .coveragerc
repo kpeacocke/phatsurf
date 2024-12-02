@@ -3,8 +3,3 @@ source = app
 
 [report]
 relative_files = True
-
-[paths]
-source =
-    app
-    */app
