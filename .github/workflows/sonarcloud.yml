@@ -63,4 +63,5 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          -Dsonar.python.version=3.13
+          args: >
+            -Dsonar.python.version=3.13
