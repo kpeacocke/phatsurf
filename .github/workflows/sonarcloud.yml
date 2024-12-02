@@ -52,7 +52,7 @@ jobs:
       - name: Run Tests and Generate Coverage
         env:
           MONGO_URI: "mongodb://localhost:27017/phatsurf"  # Ensure the app connects to the service
-        run: pytest --cov=app --cov-report=html
+        run: poetry run pytest --cov=app --cov-report=html
 
       # Step 5: SonarCloud Scan
       - name: SonarCloud Scan
