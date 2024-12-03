@@ -1,5 +1,7 @@
 from flask import Flask
+
 from app.extensions import mongo
+
 
 def create_app():
     """

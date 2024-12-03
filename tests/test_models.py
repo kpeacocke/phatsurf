@@ -1,5 +1,6 @@
 from app.models import create_user, get_users
 
+
 def test_create_user(app, mock_user):
     """
     Test inserting a user into the database via `create_user`.

@@ -1,7 +1,9 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify, request
+
 from app.extensions import mongo
 
 main = Blueprint('main', __name__)
+
 
 @main.route('/users', methods=['POST'])
 def create_user():
@@ -34,7 +36,12 @@ def get_users():
     """
     users = mongo.db.users.find()
     user_list = [
-        {"id": str(user["_id"]), "location": user["location"], "weight": user["weight"], "fitness": user["fitness"]}
+        {
+            "id": str(user["_id"]),
+            "location": user["location"],
+            "weight": user["weight"],
+            "fitness": user["fitness"]
+        }
         for user in users
     ]
     return jsonify(user_list), 200

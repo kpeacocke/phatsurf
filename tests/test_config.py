@@ -1,5 +1,5 @@
 import importlib
-from app.config import Config
+
 
 def test_default_config(monkeypatch):
     """

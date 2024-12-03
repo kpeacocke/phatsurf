@@ -1,10 +1,12 @@
 from app.extensions import mongo
 
+
 def get_users():
     """
     Retrieve all users from the MongoDB collection.
     """
     return list(mongo.db.users.find())
+
 
 def create_user(data):
     """
