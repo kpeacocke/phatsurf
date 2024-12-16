@@ -1,10 +1,15 @@
 [run]
 branch = True
+omit =
+    */tests/*
+    */.tox/*
 
 [paths]
 source =
     app
-    /Users/kpeacocke/phatsurf/app
+    /home/runner/work/phatsurf/phatsurf/app  # CI absolute path
+    /Users/kpeacocke/phatsurf/app            # Local development path
 
 [report]
 show_missing = True
+skip_covered = True
