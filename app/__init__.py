@@ -13,6 +13,7 @@ def create_app():
 
     # Register blueprints
     from app.routes import main
+
     app.register_blueprint(main)
 
     return app

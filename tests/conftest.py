@@ -41,11 +41,7 @@ def mock_user():
     """
     Provide a mock user dictionary for use in tests.
     """
-    return {
-        "location": "Sydney",
-        "weight": 75.0,
-        "fitness": "Intermediate"
-    }
+    return {"location": "Sydney", "weight": 75.0, "fitness": "Intermediate"}
 
 
 @pytest.fixture
@@ -57,5 +53,5 @@ def mock_surf_condition():
         "location": "Sydney",
         "wave_height": 2.5,
         "wind_speed": 15,
-        "date": "2024-11-27"
+        "date": "2024-11-27",
     }

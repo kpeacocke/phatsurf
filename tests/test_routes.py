@@ -12,9 +12,7 @@ def test_create_user_invalid_data(client):
     """
     Test creating a user with invalid data via the `/users` endpoint.
     """
-    invalid_user = {
-        "location": "Sydney"  # Missing weight and fitness
-    }
+    invalid_user = {"location": "Sydney"}  # Missing weight and fitness
     response = client.post("/users", json=invalid_user)
     assert response.status_code == 400
     assert "error" in response.json

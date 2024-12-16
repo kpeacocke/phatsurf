@@ -2,10 +2,10 @@ from flask import Blueprint, jsonify, request
 
 from app.extensions import mongo
 
-main = Blueprint('main', __name__)
+main = Blueprint("main", __name__)
 
 
-@main.route('/users', methods=['POST'])
+@main.route("/users", methods=["POST"])
 def create_user():
     """
     Create a new user in the database.
@@ -23,13 +23,13 @@ def create_user():
     user = {
         "location": data["location"],
         "weight": data["weight"],
-        "fitness": data["fitness"]
+        "fitness": data["fitness"],
     }
     result = mongo.db.users.insert_one(user)
     return jsonify({"message": "User created", "user_id": str(result.inserted_id)}), 201
 
 
-@main.route('/users', methods=['GET'])
+@main.route("/users", methods=["GET"])
 def get_users():
     """
     Retrieve all users from the database.
@@ -40,7 +40,7 @@ def get_users():
             "id": str(user["_id"]),
             "location": user["location"],
             "weight": user["weight"],
-            "fitness": user["fitness"]
+            "fitness": user["fitness"],
         }
         for user in users
     ]
