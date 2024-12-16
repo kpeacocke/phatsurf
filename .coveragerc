@@ -5,3 +5,6 @@ source = app
 [report]
 show_missing = True
 skip_covered = True
+
+[xml]
+output = coverage.xml
