@@ -4,12 +4,11 @@ omit =
     */tests/*
     */.tox/*
 
-[paths]
-source =
-    app
-    /home/runner/work/phatsurf/phatsurf/app  # CI absolute path
-    /Users/kpeacocke/phatsurf/app            # Local development path
-
 [report]
 show_missing = True
 skip_covered = True
+
+[paths]
+source =
+    app
+    /home/runner/work/phatsurf/phatsurf/app
