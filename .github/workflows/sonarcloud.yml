@@ -48,6 +48,13 @@ jobs:
       - name: Run Tox
         run: tox
 
+      # Step 4: Prepare SonarCloud Scan
+      - name: Read Python Version
+        id: python-version
+        run: |
+          echo "version=$(cat .python-version || echo "3.13")" >> $GITHUB_OUTPUT
+        shell: bash
+
       # Step 5: SonarCloud Scan
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2
@@ -55,4 +62,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.python.version=$(cat ".python-version" || echo "3.13")
+            -Dsonar.python.version=${{ steps.python-version.outputs.version }}
