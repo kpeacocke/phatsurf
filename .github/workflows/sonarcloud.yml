@@ -28,16 +28,15 @@ jobs:
           fetch-depth: 0 # Disabling shallow clone is recommended for improving relevancy of reporting
       
       # Step 2: Set up Python
-      - name: Extract Python Version
-        id: extract-python
+      - name: Read Python Version
+        id: python-version
         run: |
-          python_version=$(grep '^python =' pyproject.toml | sed -E 's/.*"(\^?[0-9\.]+)".*/\1/')
-          echo "version=${python_version#^}" >> $GITHUB_ENV
-      
+          echo "version=$(cat .python-version)" >> $GITHUB_ENV
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ steps.extract-python.outputs.version }}
+          python-version: ${{ steps.python-version.outputs.version }}
 
       - name: Install Poetry
         run: |
@@ -61,4 +60,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.python.version=${{ steps.extract-python.outputs.version }}
+            -Dsonar.python.version=${{ steps.python-version.outputs.version }}
