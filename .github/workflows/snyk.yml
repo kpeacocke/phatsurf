@@ -34,8 +34,10 @@ jobs:
       # Step 4: Install Snyk CLI
       - name: Install Snyk CLI
         run: |
-          curl -sL https://static.snyk.io/cli/latest/snyk-linux | bash
-          echo "${HOME}/.snyk" >> $GITHUB_PATH
+            curl -sL https://static.snyk.io/cli/latest/snyk-linux -o snyk
+            chmod +x snyk
+            sudo mv snyk /usr/local/bin/snyk
+            snyk --version
 
       # Step 5: Run Snyk Test
       - name: Run Snyk to check for vulnerabilities
