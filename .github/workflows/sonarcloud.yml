@@ -33,7 +33,7 @@ jobs:
         run: |
           pwd && \
           ls -la && \
-          echo "version=$(cat .python-version") >> $GITHUB_ENV
+          echo "version=$(cat .python-version)" >> $GITHUB_ENV
 
       - name: Setup Python
         uses: actions/setup-python@v4
