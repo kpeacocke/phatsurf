@@ -26,23 +26,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Disabling shallow clone is recommended for improving relevancy of reporting
-      
+
       # Step 2: Set up Python
-      - name: Extract Python Version
-        id: extract-python
-        run: |
-          python_version=$(grep '^python =' pyproject.toml | sed -E 's/.*"(\^?[0-9\.]+)".*/\1/')
-          echo "version=${python_version#^}" >> $GITHUB_ENV
-      
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ steps.extract-python.outputs.version }}
+          python-version-file: .python-version
 
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-          echo "${HOME}/.local/bin" >> $GITHUB_PATH      
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
       # Step 3: Install dependencies
       - name: Install Dependencies
@@ -54,6 +48,13 @@ jobs:
       - name: Run Tox
         run: tox
 
+      # Step 4: Prepare SonarCloud Scan
+      - name: Read Python Version
+        id: python-version
+        run: |
+          echo "version=$(cat .python-version || echo "3.13")" >> $GITHUB_OUTPUT
+        shell: bash
+
       # Step 5: SonarCloud Scan
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2
@@ -61,4 +62,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.python.version=${{ steps.extract-python.outputs.version }}
+            -Dsonar.python.version=${{ steps.python-version.outputs.version }}
