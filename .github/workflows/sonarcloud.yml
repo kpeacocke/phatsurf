@@ -30,6 +30,8 @@ jobs:
       # Step 2: Set up Python
       - name: Setup Python
         uses: actions/setup-python@v4
+        with:
+          python-version-file: .python-version
 
       - name: Install Poetry
         run: |
@@ -53,4 +55,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.python.version=$(cat .python-version || echo "3.13")
+            -Dsonar.python.version=$(cat ".python-version" || echo "3.13")
