@@ -11,6 +11,11 @@ A containerized web app that collects user data (location, weight, and fitness),
 ## Getting Started
 To get started, clone the repository and follow the instructions in the [Documentation](docs/README.md).
 
+## Setup Instructions
+1. Install Poetry: `pip install poetry`
+2. Install dependencies: `poetry install`
+3. Activate the virtual environment: `poetry shell`
+
 ## Contributing
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
 

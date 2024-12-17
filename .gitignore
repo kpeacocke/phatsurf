@@ -192,5 +192,4 @@ yarn-error.log*
 *.bak
 
 # Git and CI/CD
-.github/
 .coverage/
