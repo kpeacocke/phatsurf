@@ -1,0 +1,64 @@
+name: SonarCloud
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "echo 'db.runCommand("ping").ok' | mongosh --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Disabling shallow clone is recommended for improving relevancy of reporting
+      
+      # Step 2: Set up Python
+      - name: Extract Python Version
+        id: extract-python
+        run: |
+          python_version=$(grep '^python =' pyproject.toml | sed -E 's/.*"(\^?[0-9\.]+)".*/\1/')
+          echo "version=${python_version#^}" >> $GITHUB_ENV
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.version }}
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH      
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: poetry install --no-interaction --no-ansi --no-root
+
+      - name: Install Tox
+        run: pip install tox
+
+      - name: Run Tox
+        run: tox
+
+      # Step 5: SonarCloud Scan
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.python.version=${{ env.version }}
