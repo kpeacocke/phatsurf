@@ -37,7 +37,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.version }}
+          python-version: ${{ steps.extract-python.outputs.version }}
 
       - name: Install Poetry
         run: |
@@ -61,4 +61,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.python.version=${{ env.version }}
+            -Dsonar.python.version=${{ steps.extract-python.outputs.version }}
