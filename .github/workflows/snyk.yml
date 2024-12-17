@@ -34,7 +34,7 @@ jobs:
       # Step 4: Install Snyk CLI
       - name: Install Snyk CLI
         run: |
-          curl -sL https://snyk.io/install | bash
+          curl -sL https://static.snyk.io/cli/latest/snyk-linux | bash
           echo "${HOME}/.snyk" >> $GITHUB_PATH
 
       # Step 5: Run Snyk Test
