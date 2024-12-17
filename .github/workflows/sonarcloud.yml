@@ -31,8 +31,8 @@ jobs:
       - name: Read Python Version
         id: python-version
         run: |
-          pwd |
-          ls -la |
+          pwd && \
+          ls -la && \
           echo "version=$(cat .python-version)" >> $GITHUB_ENV
 
       - name: Setup Python
