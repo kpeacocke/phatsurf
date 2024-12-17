@@ -1,9 +1,12 @@
 name: SonarCloud
 
 on:
-  push:
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [main, develop]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 0 * * 1" # Weekly scan at midnight on Monday
 
 jobs:
   sonarcloud:
