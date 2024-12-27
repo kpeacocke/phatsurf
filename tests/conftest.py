@@ -1,31 +1,34 @@
+import mongomock
 import pytest
 
 from app import create_app
 from app.extensions import mongo
 
 
-@pytest.fixture(autouse=True)
-def set_testing_env(monkeypatch):
+@pytest.fixture(scope="function")
+def mock_mongo(monkeypatch):
     """
-    Set TESTING=True for all tests to ensure `.env` is ignored.
+    Replace the MongoDB client with a mongomock instance for testing.
     """
-    monkeypatch.setenv("TESTING", "True")
+    mocked_client = mongomock.MongoClient()
+    mocked_db = mocked_client["test_phatsurf"]  # Use a test database
+
+    # Monkeypatch the `mongo.db` object
+    monkeypatch.setattr(mongo, "db", mocked_db)
+
+    yield mocked_db
 
 
 @pytest.fixture
-def app():
+def app(mock_mongo):
     """
-    Create and configure a new app instance for each test.
+    Create and configure a new app instance for all tests.
     """
     app = create_app()
     app.config["TESTING"] = True
-    app.config["MONGO_URI"] = "mongodb://localhost:27017/test_phatsurf"
+    app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF for testing
 
-    with app.app_context():
-        # Clear the database collections before each test
-        mongo.db.users.delete_many({})
-        mongo.db.surf_conditions.delete_many({})
-    return app
+    yield app
 
 
 @pytest.fixture
@@ -33,7 +36,8 @@ def client(app):
     """
     A test client for making requests to the app.
     """
-    return app.test_client()
+    with app.test_client() as client:
+        yield client
 
 
 @pytest.fixture

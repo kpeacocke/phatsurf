@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "pip" # Python ecosystem works with Poetry files
+    directory: "/" # The root directory of your project
+    schedule:
+      interval: "daily" # Options: daily, weekly, monthly
+    commit-message:
+      prefix: "deps"
+    allow:
+      - dependency-type: "all" # Update both direct and transitive dependencies

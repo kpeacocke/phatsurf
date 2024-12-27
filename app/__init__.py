@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 
 from app.extensions import mongo
@@ -8,7 +10,10 @@ def create_app():
     Application factory for Flask.
     """
     app = Flask(__name__)
-    app.config["MONGO_URI"] = "mongodb://localhost:27017/phatsurf"
+
+    app.config["MONGO_URI"] = os.getenv(
+        "MONGO_URI", "mongodb://localhost:27017/phatsurf"
+    )
     mongo.init_app(app)
 
     # Register blueprints
