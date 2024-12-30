@@ -17,6 +17,11 @@ def validate_user_data(data):
 
     if missing_fields:
         return False, f"Missing or empty fields: {', '.join(missing_fields)}"
+    try:
+        float(data["weight"])
+    except ValueError:
+        return False, "could not convert string to float"
+
     return True, None
 
 
@@ -48,7 +53,10 @@ def create_user():
             "fitness": data["fitness"],
         }
         result = mongo.db.users.insert_one(user)
-        return jsonify({"message": "User created", "user_id": str(result.inserted_id)}), 201
+        return jsonify({
+            "message": "User created",
+            "user_id": str(result.inserted_id)
+        }), 201
     except Exception as e:
         current_app.logger.error(f"Error in create_user: {e}", exc_info=True)
         return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500

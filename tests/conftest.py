@@ -17,6 +17,7 @@ def mock_mongo(monkeypatch):
     monkeypatch.setattr(mongo, "cx", mocked_client)
     monkeypatch.setattr(mongo, "db", mocked_db)
     monkeypatch.setattr(mongo, "init_app", lambda app: None)
+    monkeypatch.setattr(mongo, "init_app", lambda app: None)
 
     yield mocked_db
 

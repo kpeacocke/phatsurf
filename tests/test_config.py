@@ -1,5 +1,4 @@
 import importlib
-from unittest.mock import patch
 
 from pytest import MonkeyPatch
 
@@ -48,19 +47,29 @@ def test_env_override_config(monkeypatch: MonkeyPatch):
     assert config.SECRET_KEY == "overridden-secret-key"
 
 
-def test_non_testing_mode(monkeypatch: MonkeyPatch):
+def test_testing_config(monkeypatch: MonkeyPatch):
     """
-    Test that `load_dotenv` is called when the application is not in testing mode.
+    Test configuration values when TESTING is set to True and False.
     """
-    # Ensure TESTING is set to False
-    monkeypatch.setenv("TESTING", "False")
+    # Set environment variables
+    monkeypatch.setenv("TESTING", "True")
 
-    # Mock `load_dotenv` to verify if it gets called
+    # Reload the Config class to reflect environment changes
     import app.config
-
     importlib.reload(app.config)
     from app.config import Config
 
-    with patch("dotenv.load_dotenv") as mock_load_dotenv:
-        Config()  # Instantiate Config to trigger `load_dotenv`
-        mock_load_dotenv.assert_called_once()
+    # Verify TESTING is True
+    config = Config()
+    assert config.TESTING is True
+
+    # Set environment variables
+    monkeypatch.setenv("TESTING", "False")
+
+    # Reload the Config class to reflect environment changes
+    importlib.reload(app.config)
+    from app.config import Config
+
+    # Verify TESTING is False
+    config = Config()
+    assert config.TESTING is False
