@@ -1,25 +1,93 @@
-def test_create_user_success(client, mock_user):
+from unittest.mock import patch
+
+from bson import ObjectId
+
+
+def test_create_user_success(client, mock_user, mock_mongo):
     """
     Test creating a new user successfully via the `/users` endpoint.
     """
     response = client.post("/users", json=mock_user)
-    assert response.status_code == 201
-    assert response.json["message"] == "User created"
-    assert "user_id" in response.json  # Verify user_id is returned
+    assert response.status_code == 201, f"Unexpected response: {response.json}"
+
+    # Verify the user was stored in the mock database
+    stored_user = mock_mongo.users.find_one({"_id": ObjectId(response.json["user_id"])})
+    assert stored_user is not None
+    assert stored_user["location"] == mock_user["location"]
+    assert stored_user["weight"] == mock_user["weight"]
+    assert stored_user["fitness"] == mock_user["fitness"]
 
 
-def test_create_user_invalid_data(client):
+def test_create_user_missing_fields(client):
     """
-    Test creating a user with invalid data via the `/users` endpoint.
+    Test creating a user with missing required fields via the `/users` endpoint.
     """
     invalid_user = {"location": "Sydney"}  # Missing weight and fitness
     response = client.post("/users", json=invalid_user)
     assert response.status_code == 400
     assert "error" in response.json
-    assert response.json["error"] == "Missing fields: weight, fitness"
+    assert "Missing or empty fields" in response.json["error"]
+    assert "weight" in response.json["error"]
+    assert "fitness" in response.json["error"]
 
 
-def test_get_users_success(client, mock_user):
+def test_create_user_empty_body(client):
+    """
+    Test creating a user with an empty request body via the `/users` endpoint.
+    """
+    response = client.post("/users", json={})
+    assert response.status_code == 400
+
+
+def test_create_user_invalid_weight(client):
+    """
+    Test creating a user with an invalid weight value via the `/users` endpoint.
+    """
+    invalid_user = {"location": "Sydney", "weight": "invalid", "fitness": "good"}
+    response = client.post("/users", json=invalid_user)
+    assert response.status_code == 400
+    assert "error" in response.json
+    assert "could not convert string to float" in response.json["error"]
+
+
+def test_create_user_internal_server_error(client, mock_user, mock_mongo):
+    """
+    Test creating a user when an internal server error occurs.
+    """
+    with patch(
+        "app.routes.mongo.db.users.insert_one", side_effect=Exception("DB error")
+    ):
+        response = client.post("/users", json=mock_user)
+        assert response.status_code == 500
+        assert "error" in response.json
+        assert "An unexpected error occurred" in response.json["error"]
+
+
+def test_get_users_internal_server_error(client, mock_mongo):
+    """
+    Test retrieving all users when an internal server error occurs.
+    """
+    with patch("app.routes.mongo.db.users.find", side_effect=Exception("DB error")):
+        response = client.get("/users")
+        assert response.status_code == 500
+        assert "error" in response.json
+        assert "An unexpected error occurred" in response.json["error"]
+
+
+def test_get_user_by_id_internal_server_error(client):
+    """
+    Test retrieving a user by ID when an internal server error occurs.
+    """
+    invalid_user_id = "64cd9f2e3d5a9b14f31a0000"  # Random ObjectId
+    with patch("app.routes.mongo.db.users.find_one", side_effect=Exception("DB error")):
+        response = client.get(f"/users/{invalid_user_id}")
+        assert response.status_code == 500
+        assert "error" in response.json
+        assert "An unexpected error occurred" in response.json["error"]
+    assert response.json["error"] == "An unexpected error occurred"
+
+
+def test_get_users_success(client, mock_user, mock_mongo):
     """
     Test retrieving all users via the `/users` endpoint after creating a user.
     """
@@ -35,8 +103,15 @@ def test_get_users_success(client, mock_user):
     assert users[0]["weight"] == mock_user["weight"]
     assert users[0]["fitness"] == mock_user["fitness"]
 
+    # Verify the database content matches
+    stored_users = list(mock_mongo.users.find())
+    assert len(stored_users) == 1
+    assert stored_users[0]["location"] == mock_user["location"]
+    assert stored_users[0]["weight"] == mock_user["weight"]
+    assert stored_users[0]["fitness"] == mock_user["fitness"]
 
-def test_get_users_empty(client):
+
+def test_get_users_empty(client, mock_mongo):
     """
     Test retrieving all users when no users exist in the database.
     """
@@ -44,3 +119,53 @@ def test_get_users_empty(client):
     assert response.status_code == 200
     users = response.json
     assert len(users) == 0
+
+    # Verify the database is empty
+    stored_users = list(mock_mongo.users.find())
+    assert len(stored_users) == 0
+
+
+def test_health_check(client):
+    """
+    Test the `/health` endpoint to ensure it reports healthy status.
+    """
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json["status"] == "healthy"
+
+
+def test_get_user_by_id_success(client, mock_user, mock_mongo):
+    """
+    Test retrieving a user by ID via the `/users/<user_id>` endpoint.
+    """
+    # Add a test user and retrieve its ID
+    response = client.post("/users", json=mock_user)
+    user_id = response.json["user_id"]
+
+    # Retrieve the user by ID
+    response = client.get(f"/users/{user_id}")
+    assert response.status_code == 200
+    user = response.json
+    assert user["id"] == user_id
+    assert user["location"] == mock_user["location"]
+    assert user["weight"] == mock_user["weight"]
+    assert user["fitness"] == mock_user["fitness"]
+
+
+def test_get_user_by_id_not_found(client):
+    """
+    Test retrieving a non-existent user by ID via the `/users/<user_id>` endpoint.
+    """
+    invalid_user_id = "64cd9f2e3d5a9b14f31a0000"  # Random ObjectId
+    response = client.get(f"/users/{invalid_user_id}")
+    assert response.status_code == 404
+    assert response.json["error"] == "User not found"
+
+
+def test_welcome_message(client):
+    """
+    Test the welcome message endpoint.
+    """
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json == {"message": "Welcome to PhatSurf!"}

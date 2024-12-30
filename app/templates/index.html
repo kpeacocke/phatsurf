@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhatSurf - Add User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container my-5">
+    <h1 class="mb-4">PhatSurf - Add User</h1>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('main.add_user') }}" method="post" class="mb-4">
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <div class="mb-3">
+            <label for="weight" class="form-label">Weight</label>
+            <input type="number" class="form-control" id="weight" name="weight" required>
+        </div>
+        <div class="mb-3">
+            <label for="fitness" class="form-label">Fitness Level</label>
+            <input type="text" class="form-control" id="fitness" name="fitness" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add User</button>
+    </form>
+
+    <h2 class="mt-5">Existing Users</h2>
+    {% if users %}
+    <ul class="list-group">
+        {% for user in users %}
+        <li class="list-group-item">
+            <strong>Location:</strong> {{ user.location }},
+            <strong>Weight:</strong> {{ user.weight }},
+            <strong>Fitness:</strong> {{ user.fitness }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No users added yet.</p>
+    {% endif %}
+</body>
+
+</html>

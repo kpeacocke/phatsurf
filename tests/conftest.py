@@ -1,31 +1,38 @@
+import mongomock
 import pytest
 
 from app import create_app
 from app.extensions import mongo
 
 
-@pytest.fixture(autouse=True)
-def set_testing_env(monkeypatch):
+@pytest.fixture(scope="function")
+def mock_mongo(monkeypatch):
     """
-    Set TESTING=True for all tests to ensure `.env` is ignored.
+    Replace the MongoDB client with a mongomock instance for testing.
     """
-    monkeypatch.setenv("TESTING", "True")
+    # Create a mocked MongoDB client and database
+    mocked_client = mongomock.MongoClient()
+    mocked_db = mocked_client["test_phatsurf"]
+
+    # Patch the PyMongo extension to use the mocked client and database
+    monkeypatch.setattr(mongo, "cx", mocked_client)
+    monkeypatch.setattr(mongo, "db", mocked_db)
+    monkeypatch.setattr(mongo, "init_app", lambda app: None)
+    monkeypatch.setattr(mongo, "init_app", lambda app: None)
+
+    yield mocked_db
 
 
 @pytest.fixture
-def app():
+def app(mock_mongo):
     """
-    Create and configure a new app instance for each test.
+    Create and configure a new app instance for all tests.
     """
     app = create_app()
     app.config["TESTING"] = True
-    app.config["MONGO_URI"] = "mongodb://localhost:27017/test_phatsurf"
-
-    with app.app_context():
-        # Clear the database collections before each test
-        mongo.db.users.delete_many({})
-        mongo.db.surf_conditions.delete_many({})
-    return app
+    app.config["MONGO_URI"] = None  # Prevent any real database connection
+    app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF for testing
+    yield app
 
 
 @pytest.fixture
@@ -33,7 +40,8 @@ def client(app):
     """
     A test client for making requests to the app.
     """
-    return app.test_client()
+    with app.test_client() as client:
+        yield client
 
 
 @pytest.fixture
@@ -55,3 +63,11 @@ def mock_surf_condition():
         "wind_speed": 15,
         "date": "2024-11-27",
     }
+
+
+@pytest.fixture(autouse=True)
+def clear_mock_mongo(mock_mongo):
+    """
+    Clear the mock database before each test to ensure test isolation.
+    """
+    mock_mongo.client.drop_database("test_phatsurf")
