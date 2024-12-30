@@ -1,5 +1,5 @@
 from bson import ObjectId
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, current_app, jsonify, request
 
 from app.extensions import mongo
 
@@ -53,10 +53,10 @@ def create_user():
             "fitness": data["fitness"],
         }
         result = mongo.db.users.insert_one(user)
-        return jsonify({
-            "message": "User created",
-            "user_id": str(result.inserted_id)
-        }), 201
+        return (
+            jsonify({"message": "User created", "user_id": str(result.inserted_id)}),
+            201,
+        )
     except Exception as e:
         current_app.logger.error(f"Error in create_user: {e}", exc_info=True)
         return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500

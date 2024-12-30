@@ -56,6 +56,7 @@ def test_testing_config(monkeypatch: MonkeyPatch):
 
     # Reload the Config class to reflect environment changes
     import app.config
+
     importlib.reload(app.config)
     from app.config import Config
 

@@ -1,6 +1,8 @@
-import os
 import logging
+import os
+
 from flask import Flask
+
 from app.extensions import mongo
 
 
@@ -36,9 +38,7 @@ def configure_logging(app):
 
     handler = logging.StreamHandler()
     handler.setFormatter(
-        logging.Formatter(
-            "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"
-        )
+        logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
     )
 
     app.logger.addHandler(handler)

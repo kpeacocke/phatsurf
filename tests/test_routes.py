@@ -1,5 +1,6 @@
-from bson import ObjectId
 from unittest.mock import patch
+
+from bson import ObjectId
 
 
 def test_create_user_success(client, mock_user, mock_mongo):
@@ -54,8 +55,7 @@ def test_create_user_internal_server_error(client, mock_user, mock_mongo):
     Test creating a user when an internal server error occurs.
     """
     with patch(
-        "app.routes.mongo.db.users.insert_one",
-        side_effect=Exception("DB error")
+        "app.routes.mongo.db.users.insert_one", side_effect=Exception("DB error")
     ):
         response = client.post("/users", json=mock_user)
         assert response.status_code == 500
