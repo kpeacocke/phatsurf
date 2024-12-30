@@ -8,18 +8,18 @@ def test_default_config(monkeypatch: MonkeyPatch):
     """
     Test the default configuration values without environment overrides.
     """
-    # Clear any relevant environment variables to simulate defaults
+    # Clear relevant environment variables to simulate defaults
     monkeypatch.delenv("MONGO_URI", raising=False)
     monkeypatch.delenv("DEBUG", raising=False)
     monkeypatch.delenv("SECRET_KEY", raising=False)
 
-    # Reimport Config to pick up changes in the environment
+    # Reload the Config class to reflect environment changes
     import app.config
 
     importlib.reload(app.config)
     from app.config import Config
 
-    # Test default values
+    # Verify default values
     config = Config()
     assert config.MONGO_URI == "mongodb://localhost:27017/phatsurf"
     assert config.DEBUG is False
@@ -35,13 +35,13 @@ def test_env_override_config(monkeypatch: MonkeyPatch):
     monkeypatch.setenv("DEBUG", "True")
     monkeypatch.setenv("SECRET_KEY", "overridden-secret-key")
 
-    # Reimport Config to pick up changes in the environment
+    # Reload the Config class to reflect environment changes
     import app.config
 
     importlib.reload(app.config)
     from app.config import Config
 
-    # Test overridden values
+    # Verify overridden values
     config = Config()
     assert config.MONGO_URI == "mongodb://localhost:27017/test_env"
     assert config.DEBUG is True
@@ -55,7 +55,7 @@ def test_non_testing_mode(monkeypatch: MonkeyPatch):
     # Ensure TESTING is set to False
     monkeypatch.setenv("TESTING", "False")
 
-    # Mock `load_dotenv` to check if it's called
+    # Mock `load_dotenv` to verify if it gets called
     import app.config
 
     importlib.reload(app.config)
@@ -63,5 +63,4 @@ def test_non_testing_mode(monkeypatch: MonkeyPatch):
 
     with patch("dotenv.load_dotenv") as mock_load_dotenv:
         Config()  # Instantiate Config to trigger `load_dotenv`
-
-    mock_load_dotenv.assert_called_once()
+        mock_load_dotenv.assert_called_once()

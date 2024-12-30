@@ -39,10 +39,11 @@ def test_get_users(mock_mongo_instance, mock_user):
 
     # Retrieve all users
     users = get_users()
-    assert len(users) == 1
-    assert users[0]["location"] == mock_user["location"]
-    assert users[0]["weight"] == mock_user["weight"]
-    assert users[0]["fitness"] == mock_user["fitness"]
+    users_list = list(users)
+    assert len(users_list) == 1
+    assert users_list[0]["location"] == mock_user["location"]
+    assert users_list[0]["weight"] == mock_user["weight"]
+    assert users_list[0]["fitness"] == mock_user["fitness"]
 
     # Ensure no additional users exist
-    assert len(list(users)) == 1
+    assert len(users_list) == 1

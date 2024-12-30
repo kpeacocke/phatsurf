@@ -1,6 +1,5 @@
 import mongomock
 import pytest
-
 from app import create_app
 from app.extensions import mongo
 
@@ -10,11 +9,14 @@ def mock_mongo(monkeypatch):
     """
     Replace the MongoDB client with a mongomock instance for testing.
     """
+    # Create a mocked MongoDB client and database
     mocked_client = mongomock.MongoClient()
-    mocked_db = mocked_client["test_phatsurf"]  # Use a test database
+    mocked_db = mocked_client["test_phatsurf"]
 
-    # Monkeypatch the `mongo.db` object
+    # Patch the PyMongo extension to use the mocked client and database
+    monkeypatch.setattr(mongo, "cx", mocked_client)
     monkeypatch.setattr(mongo, "db", mocked_db)
+    monkeypatch.setattr(mongo, "init_app", lambda app: None)
 
     yield mocked_db
 
@@ -26,8 +28,8 @@ def app(mock_mongo):
     """
     app = create_app()
     app.config["TESTING"] = True
+    app.config["MONGO_URI"] = None  # Prevent any real database connection
     app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF for testing
-
     yield app
 
 
@@ -59,3 +61,11 @@ def mock_surf_condition():
         "wind_speed": 15,
         "date": "2024-11-27",
     }
+
+
+@pytest.fixture(autouse=True)
+def clear_mock_mongo(mock_mongo):
+    """
+    Clear the mock database before each test to ensure test isolation.
+    """
+    mock_mongo.client.drop_database("test_phatsurf")
