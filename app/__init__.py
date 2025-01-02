@@ -2,9 +2,9 @@ import logging
 import os
 
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 
 from app.routes import main
-from flask_wtf.csrf import CSRFProtect
 
 
 def create_app():
