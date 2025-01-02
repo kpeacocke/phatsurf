@@ -5,6 +5,8 @@ from app.extensions import mongo
 
 main = Blueprint("main", __name__)
 
+ERROR_MESSAGE = "An unexpected error occurred"
+
 
 def validate_user_data(data):
     """
@@ -58,8 +60,8 @@ def create_user():
             201,
         )
     except Exception as e:
-        current_app.logger.error(f"Error in create_user: {e}", exc_info=True)
-        return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
+        current_app.logger.error(f"Error in create_user: {e}")
+        return jsonify({"error": ERROR_MESSAGE}), 500
 
 
 @main.route("/users", methods=["GET"])
@@ -81,7 +83,7 @@ def get_users():
         return jsonify(user_list), 200
     except Exception as e:
         current_app.logger.error(f"Error in get_users: {e}")
-        return jsonify({"error": "An unexpected error occurred"}), 500
+        return jsonify({"error": ERROR_MESSAGE}), 500
 
 
 @main.route("/users/<user_id>", methods=["GET"])
@@ -103,7 +105,7 @@ def get_user_by_id(user_id):
         return jsonify(user_data), 200
     except Exception as e:
         current_app.logger.error(f"Error in get_user_by_id: {e}")
-        return jsonify({"error": "An unexpected error occurred"}), 500
+        return jsonify({"error": ERROR_MESSAGE}), 500
 
 
 @main.route("/health", methods=["GET"])

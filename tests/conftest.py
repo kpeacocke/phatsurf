@@ -31,7 +31,7 @@ def app(mock_mongo):
     app = create_app()
     app.config["TESTING"] = True
     app.config["MONGO_URI"] = None  # Prevent any real database connection
-    app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF for testing
+    app.config["WTF_CSRF_ENABLED"] = False  # NOSONAR: SCS001 - Allowed for testing
     yield app
 
 

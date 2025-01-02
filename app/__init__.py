@@ -2,8 +2,9 @@ import logging
 import os
 
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 
-from app.extensions import mongo
+from app.routes import main
 
 
 def create_app():
@@ -12,18 +13,18 @@ def create_app():
     """
     app = Flask(__name__)
 
+    # Enable CSRF protection
+    csrf = CSRFProtect()
+    csrf.init_app(app)
+
     # Configure MongoDB URI
     app.config["MONGO_URI"] = os.getenv(
         "MONGO_URI", "mongodb://localhost:27017/phatsurf"
     )
-    mongo.init_app(app)
-
     # Set up logging
     configure_logging(app)
 
     # Register blueprints
-    from app.routes import main
-
     app.register_blueprint(main)
 
     return app
