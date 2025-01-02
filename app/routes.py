@@ -59,7 +59,7 @@ def create_user():
         )
     except Exception as e:
         current_app.logger.error(f"Error in create_user: {e}", exc_info=True)
-        return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
+        return jsonify({"error": "An unexpected error occurred"}), 500
 
 
 @main.route("/users", methods=["GET"])
