@@ -152,6 +152,7 @@ docker-compose.override.yml
 .sarif
 
 # CodeQL
+codeql-db/
 .codeql/cache/
 .codeql/results/
 .codeql/analysis/
@@ -171,3 +172,7 @@ secrets.json
 *.swp
 *.lock
 .trash/
+
+# Explicit inclusions
+!codeql-custom-queries-python/
+!codeql-custom-queries-python/**/*.ql
