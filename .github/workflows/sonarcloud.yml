@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongo:
-        image: mongo:latest
+        image: mongo:latest@sha256:4f93a84f7d4d8b1b6cb7e0c172d8a44b0bed9b399f207165ea19473bdb5a36b0
         ports:
           - 27017:27017
         options: >-
@@ -35,7 +35,7 @@ jobs:
 
       # Step 2: Set up Python
       - name: Setup Python
-        uses: actions/setup-python@v5.3.0
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version-file: .python-version
 
@@ -63,7 +63,7 @@ jobs:
 
       # Step 5: SonarCloud Scan
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v4
+        uses: sonarsource/sonarcloud-github-action@02ef91109b2d589e757aefcfb2854c2783fd7b19 # v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
