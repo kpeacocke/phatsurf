@@ -1,0 +1,9 @@
+{
+    "extends": [
+        "config:base"
+    ],
+    "github-actions": {
+        "enabled": true,
+        "pinDigests": true
+    }
+}
