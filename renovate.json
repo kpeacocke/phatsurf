@@ -1,0 +1,12 @@
+{
+    "extends": [
+        "config:recommended"
+    ],
+    "github-actions": {
+        "enabled": true,
+        "pinDigests": true
+    },
+    "ignoreDeps": [
+        "actions/*"
+    ]
+}
