@@ -6,7 +6,12 @@
         "enabled": true,
         "pinDigests": true
     },
-    "ignoreDeps": [
-        "actions/*"
+    "packageRules": [
+        {
+            "matchPackageNames": [
+                "actions/**"
+            ],
+            "enabled": false
+        }
     ]
 }
