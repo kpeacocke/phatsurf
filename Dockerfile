@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential=12.9 \
     curl=7.88.1-10+deb12u8 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
-    && curl --fail -sSL https://install.python-poetry.org | python3 -
+    && curl --fail --proto '=https' --tlsv1.2 -sSL https://install.python-poetry.org | python3 -
 
 # Add Poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
@@ -32,7 +32,7 @@ FROM python:3.13-slim
 RUN groupadd -r surfDude && useradd -r -g surfDude surfDude
 
 # Set the working directory
-WORKDIR /
+WORKDIR /app
 
 # Copy installed dependencies and application code from the builder
 COPY --from=builder /usr/local/lib/python3.13 /usr/local/lib/python3.13
@@ -56,7 +56,11 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH="/app" 
 
 # Healthcheck
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD ["python", "-c", "import requests; exit(0) if requests.get('http://localhost:5000/health').status_code == 200 else exit(1)"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD ["python", "-c", \
+    "import http.client as httplib; conn = httplib.HTTPConnection('localhost', \
+    5000); conn.request('GET', '/health'); exit(0) if conn.getresponse().status \
+    == 200 else exit(1)"]
 
 # Add metadata labels
 LABEL maintainer="Kristian Peacocke <krpeacocke@gmail.com>"
@@ -64,4 +68,4 @@ LABEL version="1.0"
 LABEL description="PhatSurf Flask Application"
 
 # Command to run the application
-CMD ["python", "run.py"]
+CMD ["python", "../run.py"]
