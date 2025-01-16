@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: app
     ports:
       - "5001:5000"
     environment:
@@ -10,6 +11,20 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+    networks:
+      - app-network
+      - internal-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   mongo:
     image: mongo:8.0
@@ -21,6 +36,26 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    networks:
+      - internal-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   mongo_data:
+
+networks:
+  app-network:
+    driver: bridge
+  internal-network:
+    driver: bridge
+    internal: true
