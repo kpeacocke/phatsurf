@@ -1,8 +1,11 @@
+name: phatsurf
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+      target: production
+    container_name: app
     ports:
       - "5001:5000"
     environment:
