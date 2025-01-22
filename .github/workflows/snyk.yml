@@ -48,7 +48,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
           snyk auth $SNYK_TOKEN
-          snyk test --severity-threshold=high --file=poetry.lock --package-manager=poetry
+          snyk test --severity-threshold=high --all-projects --package-manager=poetry
 
       # Step 6: Monitor the project (optional)
       - name: Monitor Project in Snyk
