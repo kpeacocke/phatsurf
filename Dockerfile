@@ -60,11 +60,8 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD ["python", "-c", \
     "import http.client as httplib; conn = httplib.HTTPConnection('localhost', \
-    5000); conn.request('GET', '/health'); exit(0) if conn.getresponse().status \
+    5001); conn.request('GET', '/health'); exit(0) if conn.getresponse().status \
     == 200 else exit(1)"]
-
-# Command for Gunicorn
-# CMD ["python3", "../run.py"]
 
 # Stage 4b: Final runtime image
 FROM python:3.13-slim AS production
@@ -89,14 +86,14 @@ RUN groupadd -r surfDude && useradd -r -g surfDude surfDude
 USER surfDude
 
 # Expose the Flask port
-EXPOSE 5000
+EXPOSE 5001
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD ["python", "-c", \
     "import http.client as httplib; conn = httplib.HTTPConnection('localhost', \
-    5000); conn.request('GET', '/health'); exit(0) if conn.getresponse().status \
+    5001); conn.request('GET', '/health'); exit(0) if conn.getresponse().status \
     == 200 else exit(1)"]
 
 # Command for Gunicorn
-CMD ["python3", "-m", "gunicorn", "-b", "0.0.0.0:5000", "--workers", "4", "--threads", "2", "app:create_app()"]
+CMD ["python3", "-m", "gunicorn", "-b", "0.0.0.0:5001", "--workers", "4", "--threads", "2", "app:create_app()"]

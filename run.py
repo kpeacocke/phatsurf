@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     # Run Flask development server in debug mode, or display production usage
     host = os.getenv("FLASK_RUN_HOST", "0.0.0.0")
-    port = int(os.getenv("FLASK_RUN_PORT", 5002))
+    port = int(os.getenv("FLASK_RUN_PORT", 5001))
 
     if debug_mode:
         print(f"Starting Flask app in debug mode on {host}:{port}")
