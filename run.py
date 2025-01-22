@@ -1,8 +1,9 @@
-import os
 import logging
-from app import create_app
-import threading
+import os
 import sys
+import threading
+
+from app import create_app
 
 app = create_app()
 
