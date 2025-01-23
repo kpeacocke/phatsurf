@@ -42,6 +42,7 @@ exclude = [".tox", ".venv", ".git", "__pycache__", "build", "dist"]
 profile = "black"
 line_length = 88
 skip_gitignore = true
+skip = ["codeql"]
 
 [build-system]
 requires = ["poetry>=1.3.0"]
