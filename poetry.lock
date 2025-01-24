@@ -914,4 +914,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "e47c12d89df00378657179e477a30b2daa5b7f45c45b71083a4c12b37c52882d"
+content-hash = "cca22d787bdc4ddd5b0173c41dc5db515888e14a5ad5695d7767c2f7ea123c9f"
