@@ -1,0 +1,26 @@
+# .snyk - Snyk policy file
+
+ignore:
+  # Ignore vulnerabilities in the 'codeql' submodule and its dependencies
+  codeql/**:
+    - reason: "CodeQL is a third-party tool used for code analysis and is not part of the deployable application."
+    - expires: null # Set to null for no expiration, or specify a date in YYYY-MM-DD format if temporary
+
+  # Ignore known low-priority or non-actionable issues in other dependencies
+  # (Add more paths here as needed, based on your Snyk findings)
+
+exclude:
+  # Globally exclude directories or files from Snyk analysis
+  - "tests/**" # Optional: exclude test directories if they are not production code
+  - "docs/**" # Optional: exclude documentation folders
+
+# Other configuration options
+# Define thresholds for severity
+severityThreshold: "high" # Ignore issues below 'high' severity
+
+# Integration-specific configurations
+# You can configure settings specific to CI/CD integrations (e.g., GitHub Actions)
+integrations:
+  git:
+    enabled: true
+    org: "kpeacocke" # Replace with your GitHub organization name
