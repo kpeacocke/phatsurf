@@ -13,48 +13,12 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 COPY app/ ./app
 COPY run.py .
-# Stage 1: Base image for both dev and prod
-FROM python:3.13-slim AS base
-
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PATH="/root/.local/bin:$PATH"
-
-# Set the working directory
-WORKDIR /app
-
-# Copy application source files
-COPY pyproject.toml poetry.lock ./
-COPY app/ ./app
-COPY run.py .
 
 # Install system dependencies and Poetry
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential=12.9 \
     curl=7.88.1-10+deb12u8 && \
-    curl --fail --proto '=https' --tlsv1.2 -sSL https://install.python-poetry.org | python3 - && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Stage 2: Development dependencies
-FROM base AS development_base
-RUN poetry config virtualenvs.create false && poetry install --with dev --no-root && \
-    poetry add debugpy --group dev
-
-# Stage 3: Production dependencies
-FROM base AS production_base
-RUN poetry config virtualenvs.create false && poetry install --no-root --only main
-
-# Stage 4a: Development image
-# Final runtime image
-FROM python:3.13-slim AS development
-
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PATH="/usr/local/bin:/root/.local/bin:$PATH"
-curl=7.88.1-10+deb12u8 && \
     curl --fail --proto '=https' --tlsv1.2 -sSL https://install.python-poetry.org | python3 - && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 

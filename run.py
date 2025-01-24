@@ -4,8 +4,6 @@ import sys
 import threading
 
 from app import create_app
-import threading
-import sys
 
 app = create_app()
 
