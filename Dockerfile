@@ -56,10 +56,27 @@ USER surfDude
 # Expose the Flask port
 EXPOSE 5000
 
+# Set environment variables for Flask
+ENV FLASK_ENV=production
+ENV FLASK_DEBUG=0  
+ENV FLASK_RUN_PORT=5000
+ENV PYTHONUNBUFFERED=1 
+ENV PYTHONPATH="/app" 
+
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD ["python", "-c", \
     "import http.client as httplib; conn = httplib.HTTPConnection('localhost', \
+    5000); conn.request('GET', '/health'); exit(0) if conn.getresponse().status \
+    == 200 else exit(1)"]
+
+# Add metadata labels
+LABEL maintainer="Kristian Peacocke <krpeacocke@gmail.com>"
+LABEL version="1.0"
+LABEL description="PhatSurf Flask Application"
+
+# Command to run the application
+CMD ["python", "../run.py"]
     5001); conn.request('GET', '/health'); exit(0) if conn.getresponse().status \
     == 200 else exit(1)"]
 
