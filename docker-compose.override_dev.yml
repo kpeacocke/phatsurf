@@ -1,0 +1,37 @@
+name: phatsurf_dev
+services:
+  app:
+    build:
+      target: development
+    container_name: app_dev
+    environment:
+      - MONGO_URI=mongodb_dev://mongo:27017/phatsurf
+      - FLASK_ENV=development
+      - FLASK_DEBUG=true
+      - DEBUG_PORT=5680
+      - PYTHONUNBUFFERED=1
+      - PYDEVD_DISABLE_FILE_VALIDATION=0
+    ports: !override
+      - "5002:5001"   # Flask app
+      - "5680:5680"   # Debugpy for VSCode
+    networks:
+      - app-network_dev
+      - internal-network_dev
+    volumes:
+      - ./app:/app  # Mount the source code for live debugging
+      - ./run.py:/run.py  # Mount the run script for live debugging
+    command: ["python3", "-Xfrozen_modules=off", "../run.py"]
+  mongo:
+    container_name: mongo_dev
+    volumes:
+      - mongo_data_dev:/data/db
+    networks:
+      - internal-network_dev
+volumes:
+  mongo_data_dev:
+networks:
+  app-network_dev:
+    driver: bridge
+  internal-network_dev:
+    driver: bridge
+    internal: true
