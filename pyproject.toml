@@ -23,7 +23,7 @@ tox = "^4.24.1"
 flake8 = "^7.1.1"
 black = "^24.10.0"
 mypy = "^1.14.1"
-isort = "^5.12.0"
+isort = "^6.0.0"
 mongomock = "^4.1.2"
 debugpy = "^1.6.6"
 
