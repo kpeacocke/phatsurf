@@ -12,7 +12,7 @@ python = "^3.13"
 flask = "^3.1.0"
 flask-pymongo = "^2.3.0"
 python-dotenv = "^1.0.1"
-pymongo = "^4.10.1"
+pymongo = "^4.11"
 flask-wtf = "^1.1.1"
 gunicorn = "^23.0.0"
 
