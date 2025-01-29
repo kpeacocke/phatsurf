@@ -298,18 +298,18 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-pymongo"
-version = "2.3.0"
+version = "3.0.0"
 description = "PyMongo support for Flask applications"
 optional = false
-python-versions = "*"
+python-versions = ">=3.9"
 files = [
-    {file = "Flask-PyMongo-2.3.0.tar.gz", hash = "sha256:620eb02dc8808a5fcb90f26cab6cba9d6bf497b15032ae3ca99df80366e33314"},
-    {file = "Flask_PyMongo-2.3.0-py2.py3-none-any.whl", hash = "sha256:8a9577a2c6d00b49f21cb5a5a8d72561730364a2d745551a85349ab02f86fc73"},
+    {file = "flask_pymongo-3.0.0-py3-none-any.whl", hash = "sha256:52d2b4bfc4cbac9ec11dae55eed4c7f775a9b60927cb036641ef99d90eda5fb5"},
+    {file = "flask_pymongo-3.0.0.tar.gz", hash = "sha256:cb73197f25a1aa0621e032f03a7d7814f54f5a472e0b3fa34a7b63d00246b156"},
 ]
 
 [package.dependencies]
-Flask = ">=0.11"
-PyMongo = ">=3.3"
+flask = ">=3.0"
+pymongo = ">=4.0"
 
 [[package]]
 name = "flask-wtf"
@@ -901,4 +901,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "ff695861275228a045b62f95ad57c83c10e3daa098706795f41050777f1449a1"
+content-hash = "26882f3689f02e422119a98aca959fbb040b1a1e8a38b40bd772f372d818fd62"
