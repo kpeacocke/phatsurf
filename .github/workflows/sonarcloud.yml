@@ -4,10 +4,14 @@ permissions:
   pull-requests: write
 
 on:
-  pull_request:
-    branches: [main, develop]
   push:
-    branches: [main]
+    branches:
+      - main
+      - master
+      - develop
+      - 'releases/**'
+  pull_request:
+    types: [opened, synchronize, reopened]
   schedule:
     - cron: "0 0 * * 1" # Weekly scan at midnight on Monday
 
@@ -15,16 +19,6 @@ jobs:
   sonarcloud:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
-    services:
-      mongo:
-        image: mongo:latest@sha256:c7ac28ef4d8137358ed86014a9d10dda2730a64046ce2a49610ad4bd9788d4cb
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "echo 'db.runCommand("ping").ok' | mongosh --quiet"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       # Step 1: Check out the repository
@@ -63,7 +57,7 @@ jobs:
 
       # Step 5: SonarCloud Scan
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@02ef91109b2d589e757aefcfb2854c2783fd7b19 # v4
+        uses: SonarSource/sonarqube-scan-action@v4.2.1 # v4.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
