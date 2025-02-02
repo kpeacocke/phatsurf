@@ -1,6 +1,6 @@
 {
     "extends": [
-        "config:recommended"
+        ":disableAll"
     ],
     "github-actions": {
         "enabled": true,
@@ -8,13 +8,12 @@
     },
     "packageRules": [
         {
-            "matchPackageNames": [
-                "actions/**"
+            "matchPackagePatterns": [
+                "^actions/.+",
+                "^[^/]+/.+"
             ],
-            "enabled": false
+            "enabled": true,
+            "pinDigests": true
         }
-    ],
-    "ignorePaths": [
-        "codeql/**"
     ]
 }
