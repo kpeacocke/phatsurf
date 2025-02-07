@@ -1,0 +1,42 @@
+provide:
+  - "codeql/python/ql/src/qlpack.yml"
+  - "codeql/python/ql/lib/qlpack.yml"
+  - "codeql/python/ql/test/qlpack.yml"
+  - "codeql/python/ql/examples/qlpack.yml"
+  - "codeql/python/ql/consistency-queries/qlpack.yml"
+
+  - "codeql/javascript/ql/src/qlpack.yml"
+  - "codeql/javascript/ql/lib/qlpack.yml"
+  - "codeql/javascript/ql/test/qlpack.yml"
+  - "codeql/javascript/ql/examples/qlpack.yml"
+
+  - "codeql/actions/ql/src/qlpack.yml"
+  - "codeql/actions/ql/lib/qlpack.yml"
+  - "codeql/actions/ql/test/qlpack.yml"
+
+  - "codeql/shared/dataflow/qlpack.yml"
+  - "codeql/shared/tutorial/qlpack.yml"
+  - "codeql/shared/typos/qlpack.yml"
+  - "codeql/shared/util/qlpack.yml"
+  - "codeql/shared/regex/qlpack.yml"
+  - "codeql/shared/xml/qlpack.yml"
+  - "codeql/shared/mad/qlpack.yml"
+  - "codeql/shared/typeflow/qlpack.yml"
+  - "codeql/shared/rangeanalysis/qlpack.yml"
+  - "codeql/shared/ssa/qlpack.yml"
+  - "codeql/shared/typetracking/qlpack.yml"
+  - "codeql/shared/yaml/qlpack.yml"
+  - "codeql/shared/controlflow/qlpack.yml"
+  - "codeql/shared/threat-models/qlpack.yml"
+
+  - "codeql/ql/ql/src/qlpack.yml"
+  - "codeql/ql/ql/lib/qlpack.yml"
+  - "codeql/ql/ql/test/qlpack.yml"
+  - "codeql/ql/ql/examples/qlpack.yml"
+  - "codeql/ql/ql/consistency-queries/qlpack.yml"
+
+versionPolicies:
+  default:
+    requireChangeNotes: true
+    committedPrereleaseSuffix: dev
+    committedVersion: nextPatchRelease
