@@ -1,6 +1,6 @@
 {
-    "extends": [
-        "config:recommended"
+    "enabledManagers": [
+        "github-actions"
     ],
     "github-actions": {
         "enabled": true,
@@ -8,10 +8,12 @@
     },
     "packageRules": [
         {
-            "matchPackageNames": [
-                "actions/**"
+            "matchPackagePatterns": [
+                "^actions/.+",
+                "^[^/]+/.+"
             ],
-            "enabled": false
+            "enabled": true,
+            "pinDigests": true
         }
     ]
 }

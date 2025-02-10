@@ -8,11 +8,17 @@ updates:
       prefix: "deps"
     allow:
       - dependency-type: "all"
+    ignore-paths:
+      - "codeql/**"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore-paths:
+      - "codeql/**"
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "daily"
+    ignore-paths:
+      - "codeql/**"

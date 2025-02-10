@@ -176,3 +176,15 @@ secrets.json
 # Explicit inclusions
 !codeql-custom-queries-python/
 !codeql-custom-queries-python/**/*.ql
+
+# Ignore CodeQL temporary and irrelevant files
+codeql/.git
+codeql/.vscode
+codeql/.idea
+codeql/**/__pycache__
+codeql/**/.pytest_cache
+codeql/**/.mypy_cache
+codeql/build
+codeql/cache
+codeql/node_modules
+codeql/**/test-output
