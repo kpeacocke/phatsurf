@@ -19,11 +19,11 @@ jobs:
     steps:
       # Step 1: Checkout the code
       - name: Checkout Code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4.2.2
 
       # Step 2: Set up Python
       - name: Set up Python
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        uses: actions/setup-python@v5.4.0
         with:
           python-version-file: .python-version
 
@@ -37,12 +37,12 @@ jobs:
       # Step 4: Install Snyk CLI
       - name: Install Snyk CLI
         run: |
-            curl -sL https://static.snyk.io/cli/latest/snyk-linux -o snyk
-            chmod +x snyk
-            sudo mv snyk /usr/local/bin/snyk
-            snyk --version
+          curl -sL https://static.snyk.io/cli/latest/snyk-linux -o snyk
+          chmod +x snyk
+          sudo mv snyk /usr/local/bin/snyk
+          snyk --version
 
-      # Step 5: Run Snyk Test
+      # Step 5: Run Snyk to check for vulnerabilities
       - name: Run Snyk to check for vulnerabilities
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

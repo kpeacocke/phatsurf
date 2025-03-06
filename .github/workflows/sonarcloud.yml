@@ -23,13 +23,13 @@ jobs:
     steps:
       # Step 1: Check out the repository
       - name: Checkout Code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0 # Disabling shallow clone is recommended for improving relevancy of reporting
 
       # Step 2: Set up Python
       - name: Setup Python
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        uses: actions/setup-python@v5.4.0
         with:
           python-version-file: .python-version
 
@@ -55,9 +55,16 @@ jobs:
           echo "version=$(cat .python-version || echo "3.13")" >> $GITHUB_OUTPUT
         shell: bash
 
-      # Step 5: SonarCloud Scan
+      # Step 5: Download and Setup Sonar Scanner
+      - name: Download Sonar Scanner CLI
+        run: |
+          curl -sSLo sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip sonar-scanner-cli.zip -d $HOME
+          echo "$HOME/sonar-scanner-4.6.2.2472-linux/bin" >> $GITHUB_PATH
+
+      # Step 6: SonarCloud Scan
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@bfd4e558cda28cda6b5defafb9232d191be8c203 # v4.2.1
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
