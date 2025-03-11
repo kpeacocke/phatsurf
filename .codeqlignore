@@ -1,0 +1,5 @@
+codeql/*
+!codeql/actions
+!codeql/python
+!codeql/ql
+!codeql/shared
