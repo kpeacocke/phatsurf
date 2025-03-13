@@ -1,10 +1,4 @@
 {
-    "extensions.ignoreRecommendations": true,
-    "extensions.disabled": [
-        "geequlim.godot-tools",
-        "hashicorp.terraform",
-        "redhat.ansible"
-    ],
     "sonarlint.connectedMode.project": {
         "connectionId": "kpeacocke",
         "projectKey": "kpeacocke_phatsurf"
