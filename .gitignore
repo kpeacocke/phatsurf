@@ -90,6 +90,7 @@ env.bak/
 venv.bak/
 
 # Poetry
+# If this is an application, you might want to commit poetry.lock for reproducible builds.
 poetry.lock
 .pdm.toml
 .pdm-python
@@ -115,8 +116,15 @@ dmypy.json
 # Cython
 cython_debug/
 
-# IDEs
-.vscode/
+# VSCode shared configuration
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/settings.json
+# Exclude other user-specific VSCode settings
+.vscode/*.code-snippets
+.vscode/*-local.json
+
+# Other IDEs
 *.code-workspace
 .idea/
 
@@ -165,7 +173,7 @@ snyk.log
 # Secrets and sensitive files
 *.key
 *.pem
-*.env
+# .env is already ignored above in Virtual Environments
 secrets.json
 
 # Miscellaneous
@@ -173,13 +181,9 @@ secrets.json
 *.lock
 .trash/
 
-# Explicit inclusions
+# Explicit inclusions for CodeQL custom queries
 !codeql-custom-queries-python/
 !codeql-custom-queries-python/**/*.ql
 
 # Ignore CodeQL temporary and irrelevant files
-codeql/*
-!codeql/actions/**
-!codeql/python/**
-!codeql/ql/**
-!codeql/shared/**
+codeql/

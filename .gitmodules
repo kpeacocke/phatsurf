@@ -1,0 +1,5 @@
+[submodule "codeql"]
+	shallow = true
+	path = codeql
+	url = https://github.com/github/codeql.git
+	ignore = dirty
