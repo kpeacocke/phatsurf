@@ -1,0 +1,157 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "docker-compose: up",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose.yml -f docker-compose.override_dev.yml up --build",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "custom",
+                "pattern": [
+                    {
+                        "regexp": ".*Debugpy is listening on port.*",
+                        "file": 1,
+                        "location": 2,
+                        "message": 0
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*Debugpy is listening on port.*",
+                    "endsPattern": ".*Debugpy is listening on port.*"
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "FLASK_ENV": "development",
+                    "FLASK_RUN_HOST": "0.0.0.0",
+                    "FLASK_RUN_PORT": "5002",
+                    "DEBUG_PORT": "5678"
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "docker-compose: down",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose.yml -f docker-compose.override_dev.yml down",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run Tox: py313 Tests",
+            "type": "shell",
+            "command": "tox -e py313",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Tox: lint",
+            "type": "shell",
+            "command": "tox -e lint",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Tox: format",
+            "type": "shell",
+            "command": "tox -e format",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Tox: mypy",
+            "type": "shell",
+            "command": "tox -e mypy",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Tox: bandit",
+            "type": "shell",
+            "command": "tox -e bandit",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Tox: safety",
+            "type": "shell",
+            "command": "tox -e safety",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start MongoDB",
+            "type": "shell",
+            "command": "docker run --rm -d -p 27017:27017 --name mongodb mongo:5.0",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Stop MongoDB",
+            "type": "shell",
+            "command": "docker stop mongodb",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}
