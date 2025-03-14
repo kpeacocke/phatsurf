@@ -2,23 +2,25 @@
 name = "phatsurf"
 version = "0.1.0"
 description = "A web application for surfboard recommendations based on user preferences and surf conditions."
-authors = ["Your Name <youremail@example.com>"]
+authors = ["Kristian Peacocke <krpeacocke@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = ">=3.11,<3.14"
 flask = "^3.1.0"
 flask-pymongo = "^3.0.1"
 python-dotenv = "^1.0.1"
-pymongo = "^4.11"
 flask-wtf = "^1.1.1"
 gunicorn = "^23.0.0"
+flask-login = "^0.6.3"
+flask-bcrypt = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.3.3"
 pytest-cov = "^6.0.0"
+pytest-mock = "^3.11.1"
 tox = "^4.24.1"
 flake8 = "^7.1.1"
 black = "^25.1.0"

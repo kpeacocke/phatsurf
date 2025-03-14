@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Welcome, {{ user.username }}!</h1>
+        <a href="{{ url_for('main.logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+
+    <div class="card p-4">
+        <h3 class="mb-3">Your Profile</h3>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Location:</strong> {{ user.location }}</p>
+        <p><strong>Weight:</strong> {{ user.weight }} kg</p>
+        <p><strong>Fitness Level:</strong> {{ user.fitness }}</p>
+    </div>
+
+    <div class="mt-4">
+        <h4>Update Your Information</h4>
+        <form method="POST" action="{{ url_for('main.update_user') }}">
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" value="{{ user.location }}">
+            </div>
+            <div class="mb-3">
+                <label for="weight" class="form-label">Weight (kg)</label>
+                <input type="number" class="form-control" id="weight" name="weight" value="{{ user.weight }}">
+            </div>
+            <div class="mb-3">
+                <label for="fitness" class="form-label">Fitness Level</label>
+                <select class="form-control" id="fitness" name="fitness">
+                    <option value="Beginner" {% if user.fitness=="Beginner" %}selected{% endif %}>Beginner</option>
+                    <option value="Intermediate" {% if user.fitness=="Intermediate" %}selected{% endif %}>Intermediate
+                    </option>
+                    <option value="Advanced" {% if user.fitness=="Advanced" %}selected{% endif %}>Advanced</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+    </div>
+</body>
+
+</html>
