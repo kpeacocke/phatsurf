@@ -1,14 +1,24 @@
+# pylint: skip-file
+# mypy: ignore-errors
+# This is a configuration file for Coverage; do not treat as Python code.
 [run]
-branch = True
-source = app
-relative_files = True
+branch = true
+source = app, run.py
+omit =
+    tests/*
+relative_files = false
+parallel = true
+concurrency = multiprocessing
 
 [report]
-show_missing = True
-skip_covered = True
+show_missing = true
+skip_covered = true
 
 [paths]
-source = app
+source =
+    app
+    /app
+    {toxinidir}/app
 
 [xml]
 output = coverage.xml

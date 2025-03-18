@@ -55,7 +55,14 @@ jobs:
           echo "version=$(cat .python-version || echo "3.13")" >> $GITHUB_OUTPUT
         shell: bash
 
-      # Step 5: SonarCloud Scan
+      # Step 5: Download and Setup Sonar Scanner
+      - name: Download Sonar Scanner CLI
+        run: |
+          curl -sSLo sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip sonar-scanner-cli.zip -d $HOME
+          echo "$HOME/sonar-scanner-4.6.2.2472-linux/bin" >> $GITHUB_PATH
+
+      # Step 6: SonarCloud Scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@0303d6b62e310685c0e34d0b9cde218036885c4d # v5.0.0
         env:

@@ -1,1 +1,2 @@
-codeql/** export-ignore linguist-generated=true
+codeql/** linguist-vendored=true
+codeql/** export-ignore

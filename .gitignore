@@ -186,4 +186,4 @@ secrets.json
 !codeql-custom-queries-python/**/*.ql
 
 # Ignore CodeQL temporary and irrelevant files
-codeql/
+/codeql/**
