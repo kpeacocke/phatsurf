@@ -4,12 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhatSurf - Add User</title>
+    <title>PhatSurf - Home</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
 <body class="container my-5">
-    <h1 class="mb-4">PhatSurf - Add User</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <a class="navbar-brand" href="#">PhatSurf</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.register') }}">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile') }}">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1 class="mb-4 text-center">PhatSurf - Add User</h1>
 
     {% if error %}
     <div class="alert alert-danger" role="alert">
@@ -17,36 +28,56 @@
     </div>
     {% endif %}
 
-    <form action="{{ url_for('main.add_user') }}" method="post" class="mb-4">
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" class="form-control" id="location" name="location" required>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="{{ url_for('main.users') }}" method="post" class="mb-4">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" required>
+                </div>
+                <div class="mb-3">
+                    <label for="weight" class="form-label">Weight (kg)</label>
+                    <input type="number" class="form-control" id="weight" name="weight" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fitness" class="form-label">Fitness Level</label>
+                    <select class="form-control" id="fitness" name="fitness">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add User</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="weight" class="form-label">Weight</label>
-            <input type="number" class="form-control" id="weight" name="weight" required>
-        </div>
-        <div class="mb-3">
-            <label for="fitness" class="form-label">Fitness Level</label>
-            <input type="text" class="form-control" id="fitness" name="fitness" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add User</button>
-    </form>
 
-    <h2 class="mt-5">Existing Users</h2>
-    {% if users %}
-    <ul class="list-group">
-        {% for user in users %}
-        <li class="list-group-item">
-            <strong>Location:</strong> {{ user.location }},
-            <strong>Weight:</strong> {{ user.weight }},
-            <strong>Fitness:</strong> {{ user.fitness }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No users added yet.</p>
-    {% endif %}
+        <div class="col-md-6">
+            <h2 class="mt-3">Existing Users</h2>
+            {% if users %}
+            <ul class="list-group">
+                {% for user in users %}
+                <li class="list-group-item">
+                    <strong>Username:</strong> {{ user.username }}<br>
+                    <strong>Email:</strong> {{ user.email }}<br>
+                    <strong>Location:</strong> {{ user.location }}<br>
+                    <strong>Weight:</strong> {{ user.weight }} kg<br>
+                    <strong>Fitness:</strong> {{ user.fitness }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No users added yet.</p>
+            {% endif %}
+        </div>
+    </div>
 </body>
 
 </html>

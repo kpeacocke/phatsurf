@@ -5,7 +5,7 @@ services:
       target: development
     container_name: app_dev
     environment:
-      - MONGO_URI=mongodb_dev://mongo:27017/phatsurf
+      - MONGO_URI=mongodb://mongo_dev:27017/phatsurf
       - FLASK_ENV=development
       - FLASK_DEBUG=true
       - DEBUG_PORT=5680
@@ -20,6 +20,7 @@ services:
     volumes:
       - ./app:/app  # Mount the source code for live debugging
       - ./run.py:/run.py  # Mount the run script for live debugging
+      - ./poetry.lock:/poetry.lock  # Ensure dependencies match across builds
     command: ["python3", "-Xfrozen_modules=off", "../run.py"]
   mongo:
     container_name: mongo_dev

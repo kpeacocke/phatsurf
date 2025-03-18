@@ -1,5 +1,0 @@
-{
-    "databases": {
-        "default": "./codeql-db"
-    }
-}

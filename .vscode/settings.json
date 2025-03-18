@@ -1,62 +1,56 @@
 {
+  "folders": [
+    {
+      "path": "/Users/kpeacocke/phatsurf"
+    }
+  ],
+  "settings": {
     "sonarlint.connectedMode.project": {
-        "connectionId": "kpeacocke",
-        "projectKey": "kpeacocke_phatsurf"
+      "connectionId": "kpeacocke",
+      "projectKey": "kpeacocke_phatsurf"
     },
     "python.testing.pytestArgs": [
-        "tests"
+      "tests"
     ],
-    "python.envFile": "${workspaceFolder}/.env",
     "python.testing.cwd": "${workspaceFolder}",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
-    "python.linting.flake8Args": [
-        "--max-line-length=88"
-    ],
     "python.formatting.provider": "black",
     "editor.formatOnSave": true,
     "python.sortImports.path": "isort",
-    "python.sortImports.args": [
-        "--line-length",
-        "88"
-    ],
     "python.formatting.blackArgs": [
-        "--line-length=88"
+      "--line-length=88"
     ],
     "snyk.advanced.additionalParameters": "--command=python3 --file=poetry.lock --package-manager=poetry",
-    "codeQL.createQuery.qlPackLocation": "${workspaceFolder}",
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "main"
-    ],
-    "codeQL.runningQueries": {
-        "maxConcurrent": 2
-    },
+    "codeQL.createQuery.qlPackLocation": "/Users/kpeacocke/phatsurf",
+    "githubPullRequests.ignoredPullRequestBranches": ["main"],
+    "codeQL.runningQueries.maxConcurrent": 2,
     "codeQL.cli.executablePath": "/opt/homebrew/bin/codeql",
     "search.exclude": {
-        "**/codeql": true
+      "**/codeql": true
     },
-    "python.linting.ignorePatterns": [
-        "**/codeql/**"
-    ],
+    "python.linting.ignorePatterns": ["**/codeql/**"],
+    "files.exclude": {
+      "**/codeql/**": true
+    },
+    "files.watcherExclude": {
+      "**/codeql/**": true
+    },
     "git.ignoredRepositories": [
-        "**/codeql"
-    ],
-    "python.analysis.ignore": [
-        "**/codeql/**"
+      "${workspaceFolder}/codeql"
     ],
     "sonarlint.pathToNodeExecutable": "/dev/null",
-    "sonarlint.rules": {
-        "**/codeql/**": {
-            "disable": true
-        }
-    },
-    "editor.formatOnType": true,
-    "files.watcherExclude": {
-        "**/codeql/**": true
-    },
-    "tox.configFile": "${workspaceFolder}/tox.ini",
-    "tox.env": "py313",
-    "tox.extraArgs": ""
+    "tox.rootDirectory": "${workspaceFolder}"
+  },
+  "sonarlint.connectedMode.project": {
+    "connectionId": "kpeacocke",
+    "projectKey": "kpeacocke_phatsurf"
+  },
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }
