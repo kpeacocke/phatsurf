@@ -11,7 +11,7 @@ packages = [{ include = "app" }]
 python = ">=3.11,<3.14"
 flask = "^3.1.1"
 flask-pymongo = "^3.0.1"
-python-dotenv = "^1.1.0"
+python-dotenv = "^1.1.1"
 pymongo = "^4.13"
 flask-wtf = "^1.1.1"
 gunicorn = "^23.0.0"
