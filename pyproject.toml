@@ -19,7 +19,7 @@ flask-login = "^0.6.3"
 flask-bcrypt = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^8.4.0"
+pytest = "^8.4.1"
 pytest-cov = "^6.2.1"
 pytest-mock = "^3.14.1"
 tox = "^4.27.0"
