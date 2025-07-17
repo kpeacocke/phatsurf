@@ -51,7 +51,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
-          snyk auth $SNYK_TOKEN --timeout=300000
+          snyk auth --auth-type=token $SNYK_TOKEN
           snyk test --severity-threshold=high --all-projects
 
       # Step 7: Monitor the project (optional)
@@ -60,3 +60,4 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk monitor --all-projects
+
