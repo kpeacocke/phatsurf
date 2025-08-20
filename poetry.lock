@@ -1010,14 +1010,18 @@ files = [
 
 [[package]]
 name = "sentinels"
-version = "1.0.0"
+version = "1.1.1"
 description = "Various objects to denote special meanings in python"
 optional = false
-python-versions = "*"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "sentinels-1.0.0.tar.gz", hash = "sha256:7be0704d7fe1925e397e92d18669ace2f619c92b5d4eb21a89f31e026f9ff4b1"},
+    {file = "sentinels-1.1.1-py3-none-any.whl", hash = "sha256:835d3b28f3b47f5284afa4bf2db6e00f2dc5f80f9923d4b7e7aeeeccf6146a11"},
+    {file = "sentinels-1.1.1.tar.gz", hash = "sha256:3c2f64f754187c19e0a1a029b148b74cf58dd12ec27b4e19c0e5d6e22b5a9a86"},
 ]
+
+[package.extras]
+testing = ["pylint", "pytest"]
 
 [[package]]
 name = "tox"
