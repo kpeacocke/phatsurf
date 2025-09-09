@@ -21,7 +21,7 @@ flask-bcrypt = "^1.0.1"
 [tool.poetry.dev-dependencies]
 pytest = "^8.4.2"
 pytest-cov = "^6.3.0"
-pytest-mock = "^3.14.1"
+pytest-mock = "^3.15.0"
 tox = "^4.30.2"
 flake8 = "^7.3.0"
 black = "^25.1.0"
