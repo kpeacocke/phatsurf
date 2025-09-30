@@ -1,5 +1,5 @@
 # Stage 1: Base image for both dev and prod
-FROM python:3.13-slim AS base
+FROM python:3.13.7-slim AS base
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -33,7 +33,7 @@ RUN poetry config virtualenvs.create false && poetry install --no-root --only ma
 
 # Stage 4a: Development image
 # Final runtime image
-FROM python:3.13-slim AS development
+FROM python:3.13.7-slim AS development
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -64,7 +64,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     == 200 else exit(1)"]
 
 # Stage 4b: Final runtime image
-FROM python:3.13-slim AS production
+FROM python:3.13.7-slim AS production
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
